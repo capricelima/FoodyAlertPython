@@ -65,7 +65,7 @@ for food in products:
         msg["To"] = EMAIL_DESTINO
         msg.set_content(
             f"O alimento '{food['type']}' está com a validade próxima.\n\n"
-            f"Data de validade: {expiration_date}\n"
+            f"Data de validade: '{food['expiration_date']}'\n"
             f"Faltam {diff_days} dias para vencer."
         )
 
