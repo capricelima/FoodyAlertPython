@@ -17,7 +17,7 @@ EMAIL_USER = os.getenv("EMAIL_USER")
 EMAIL_PASS = os.getenv("EMAIL_PASS")
 
 # Email fixo que deve receber TODOS os alertas
-EMAIL_DESTINO = os.getenv("EMAIL_DESTINO")  
+EMAIL_DESTINO = "capricelima@gmail.com"  
 # Ex.: seuemail@gmail.com
 
 # ----------------------------------------------------------
