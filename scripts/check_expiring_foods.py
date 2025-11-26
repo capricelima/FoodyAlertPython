@@ -36,7 +36,7 @@ cursor = db.cursor(dictionary=True)
 # ----------------------------------------------------------
 # 3️⃣ BUSCAR ALIMENTOS NÃO ALERTADOS
 # ----------------------------------------------------------
-cursor.execute("SELECT id, name, expiry, alert_sent FROM products WHERE alert_sent = 0")
+cursor.execute("SELECT id, brand, type, expiration_date, alert_sent FROM products WHERE alert_sent = 0")
 foods = cursor.fetchall()
 
 today = datetime.utcnow().date()
@@ -51,7 +51,7 @@ server.login(EMAIL_USER, EMAIL_PASS)
 # 5️⃣ PROCESSAR ALIMENTOS
 # ----------------------------------------------------------
 for food in products:
-    expiry_date = food["expiry"]
+    expiry_date = food["expiration_date"]
 
     if isinstance(expiry_date, str):
         expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d").date()
@@ -60,24 +60,24 @@ for food in products:
 
     if 0 < diff_days <= 60:
         msg = EmailMessage()
-        msg["Subject"] = f"⚠️ Alerta: {food['name']} vence em {diff_days} dias"
+        msg["Subject"] = f"⚠️ Alerta: {food['type']} vence em {diff_days} dias"
         msg["From"] = EMAIL_USER
         msg["To"] = EMAIL_DESTINO
         msg.set_content(
-            f"O alimento '{food['name']}' está com a validade próxima.\n\n"
-            f"Data de validade: {expiry_date}\n"
+            f"O alimento '{food['type']}' está com a validade próxima.\n\n"
+            f"Data de validade: {expiration_date}\n"
             f"Faltam {diff_days} dias para vencer."
         )
 
         try:
             server.send_message(msg)
-            print(f"✅ Email enviado para {EMAIL_DESTINO}: {food['name']}")
+            print(f"✅ Email enviado para {EMAIL_DESTINO}: {food['type']}")
 
             cursor.execute("UPDATE products SET alert_sent = 1 WHERE id = %s", (food["id"],))
             db.commit()
 
         except Exception as e:
-            print(f"❌ Erro ao enviar email do item {food['name']}: {e}")
+            print(f"❌ Erro ao enviar email do item {food['type']}: {e}")
 
 server.quit()
 cursor.close()
