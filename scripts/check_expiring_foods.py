@@ -23,11 +23,13 @@ EMAIL_DESTINO = os.getenv("EMAIL_DESTINO")
 # 2️⃣ CONECTAR AO MYSQL
 # ----------------------------------------------------------
 db = mysql.connector.connect(
-    host=MYSQL_HOST,
-    user=MYSQL_USER,
-    password=MYSQL_PASSWORD,
-    database=MYSQL_DB
+    host=os.getenv("MYSQL_HOST"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DB"),
+    port=os.getenv("MYSQL_PORT"),   # IMPORTANTE: Railway usa porta customizada
 )
+
 
 cursor = db.cursor(dictionary=True)
 
