@@ -36,7 +36,7 @@ cursor = db.cursor(dictionary=True)
 # ----------------------------------------------------------
 # 3️⃣ BUSCAR ALIMENTOS NÃO ALERTADOS
 # ----------------------------------------------------------
-cursor.execute("SELECT id, name, expiry, alert_sent FROM foods WHERE alert_sent = 0")
+cursor.execute("SELECT id, name, expiry, alert_sent FROM products WHERE alert_sent = 0")
 foods = cursor.fetchall()
 
 today = datetime.utcnow().date()
@@ -50,7 +50,7 @@ server.login(EMAIL_USER, EMAIL_PASS)
 # ----------------------------------------------------------
 # 5️⃣ PROCESSAR ALIMENTOS
 # ----------------------------------------------------------
-for food in foods:
+for food in products:
     expiry_date = food["expiry"]
 
     if isinstance(expiry_date, str):
@@ -73,7 +73,7 @@ for food in foods:
             server.send_message(msg)
             print(f"✅ Email enviado para {EMAIL_DESTINO}: {food['name']}")
 
-            cursor.execute("UPDATE foods SET alert_sent = 1 WHERE id = %s", (food["id"],))
+            cursor.execute("UPDATE products SET alert_sent = 1 WHERE id = %s", (food["id"],))
             db.commit()
 
         except Exception as e:
