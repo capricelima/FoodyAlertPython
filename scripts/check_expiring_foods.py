@@ -37,7 +37,7 @@ cursor = db.cursor(dictionary=True)
 # 3️⃣ BUSCAR ALIMENTOS NÃO ALERTADOS
 # ----------------------------------------------------------
 cursor.execute("SELECT id, brand, type, expiration_date, alert_sent FROM products WHERE alert_sent = 0")
-foods = cursor.fetchall()
+products = cursor.fetchall()
 
 today = datetime.utcnow().date()
 
